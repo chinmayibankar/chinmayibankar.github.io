@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chinmayi Bankar · Computational Biologist &amp; Statistician</title>
+<meta name="description" content="Chinmayi Bankar — Principal Research Associate at Moderna. Computational biology, statistics, and the space in between.">
+<meta name="theme-color" content="#FAF8F3">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: #FAF8F3;
+    --paper-dim: #F1EEE6;
+    --ink: #1E2A28;
+    --ink-soft: #4A5754;
+    --mother: #B4533E;   /* medicine — warm clay-red */
+    --father: #2F5D62;   /* computer science — deep teal */
+    --line: #DCD6C6;
+    --max: 880px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  h1,h2,h3{
+    font-family:'Source Serif 4', serif;
+    font-weight:600;
+    margin:0;
+    color:var(--ink);
+  }
+
+  a{color:inherit;}
+
+  .label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+
+  /* ---------- strand motif ---------- */
+  .strand{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    height:6px;
+    width:100%;
+    margin:2.5rem 0;
+  }
+  .strand span{
+    flex:1;
+    height:2px;
+    border-radius:2px;
+  }
+  .strand span:nth-child(odd){background:var(--mother);}
+  .strand span:nth-child(even){background:var(--father);}
+  .strand.tight{margin:1.25rem 0;}
+
+  /* ---------- nav ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(250,248,243,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  nav{
+    max-width:var(--max);
+    margin:0 auto;
+    padding:1rem 1.5rem;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  nav .name{
+    font-family:'Source Serif 4', serif;
+    font-weight:600;
+    font-size:1.05rem;
+  }
+  nav .name span{color:var(--father);}
+  nav ul{
+    list-style:none;
+    display:flex;
+    gap:1.5rem;
+    margin:0; padding:0;
+  }
+  nav a{
+    text-decoration:none;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.8rem;
+    letter-spacing:0.04em;
+    color:var(--ink-soft);
+    border-bottom:1px solid transparent;
+    padding-bottom:2px;
+    transition:border-color .15s ease, color .15s ease;
+  }
+  nav a:hover, nav a:focus-visible{color:var(--ink); border-color:var(--father);}
+  #nav-toggle{display:none;}
+  .burger{display:none;}
+
+  @media (max-width:640px){
+    nav ul{
+      position:fixed; top:56px; left:0; right:0;
+      flex-direction:column;
+      background:var(--paper);
+      border-bottom:1px solid var(--line);
+      padding:1rem 1.5rem;
+      gap:1rem;
+      transform:translateY(-130%);
+      transition:transform .2s ease;
+    }
+    #nav-toggle:checked ~ ul{transform:translateY(0);}
+    .burger{
+      display:block;
+      background:none; border:none; cursor:pointer;
+      font-family:'IBM Plex Mono', monospace;
+      font-size:1.3rem; color:var(--ink);
+    }
+  }
+
+  /* ---------- sections ---------- */
+  section{
+    max-width:var(--max);
+    margin:0 auto;
+    padding:4.5rem 1.5rem;
+    border-bottom:1px solid var(--line);
+  }
+  section:last-of-type{border-bottom:none;}
+
+  .eyebrow{
+    display:flex; align-items:center; gap:0.6rem;
+    margin-bottom:1.5rem;
+  }
+  .eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--mother);}
+
+  /* ---------- hero ---------- */
+  .hero{
+    padding-top:4.5rem;
+    padding-bottom:3rem;
+    border-bottom:1px solid var(--line);
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns:1fr 220px;
+    gap:2.5rem;
+    align-items:start;
+  }
+  @media (max-width:760px){
+    .hero-grid{grid-template-columns:1fr;}
+    .helix-wrap{order:-1; margin:0 auto 1.5rem; width:150px;}
+  }
+  .helix-wrap{
+    position:relative;
+    width:220px;
+  }
+  .helix-wrap svg{width:100%; height:auto; display:block;}
+  .helix-strand-a{fill:none; stroke:var(--mother); stroke-width:3; stroke-linecap:round;}
+  .helix-strand-b{fill:none; stroke:var(--father); stroke-width:3; stroke-linecap:round;}
+  .rung{stroke:var(--line); stroke-width:1.5;}
+  .helix-wrap .converge-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:0.06em;
+    fill:var(--ink-soft);
+    text-anchor:middle;
+  }
+  .helix-wrap .converge-dot{fill:var(--ink);}
+  .helix-legend{
+    display:flex;
+    justify-content:center;
+    gap:1rem;
+    margin-top:0.6rem;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.68rem;
+    color:var(--ink-soft);
+  }
+  .helix-legend span{display:flex; align-items:center; gap:0.35rem;}
+  .helix-legend i{width:8px; height:8px; border-radius:50%; display:inline-block;}
+  .helix-legend .m i{background:var(--mother);}
+  .helix-legend .f i{background:var(--father);}
+
+  @keyframes helixSway{
+    0%,100%{transform:rotate(-1.1deg);}
+    50%{transform:rotate(1.1deg);}
+  }
+  .helix-wrap svg{
+    transform-origin:50% 15%;
+    animation:helixSway 7s ease-in-out infinite;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .helix-wrap svg{animation:none;}
+  }
+  .hero .label{margin-bottom:1rem;}
+  .hero h1{
+    font-size:clamp(2.1rem, 5vw, 3.1rem);
+    line-height:1.12;
+    max-width:11ch;
+  }
+  .hero .role{
+    margin-top:0.9rem;
+    font-size:1.05rem;
+    color:var(--ink-soft);
+  }
+  .hero .role strong{color:var(--ink); font-weight:600;}
+  .origin{
+    margin-top:2rem;
+    max-width:60ch;
+    font-size:1.12rem;
+    line-height:1.65;
+  }
+  .origin .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.75rem;
+    padding:0.15rem 0.45rem;
+    border-radius:3px;
+  }
+  .tag.m{background:rgba(180,83,62,0.12); color:var(--mother);}
+  .tag.f{background:rgba(47,93,98,0.12); color:var(--father);}
+
+  .hero-links{
+    margin-top:2.2rem;
+    display:flex; gap:1.3rem; flex-wrap:wrap;
+  }
+  .hero-links a{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.82rem;
+    text-decoration:none;
+    padding:0.55rem 0;
+    border-bottom:1px solid var(--ink);
+    transition:opacity .15s ease;
+  }
+  .hero-links a:hover{opacity:0.6;}
+
+  /* ---------- about ---------- */
+  .about-body{max-width:65ch; font-size:1.05rem;}
+  .about-body p{margin:0 0 1.1rem 0;}
+
+  .pillars{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:1.5rem;
+    margin-top:2.5rem;
+  }
+  @media (max-width:640px){.pillars{grid-template-columns:1fr;}}
+  .pillar{
+    padding:1.4rem;
+    background:var(--paper-dim);
+    border-radius:4px;
+    border-left:3px solid var(--mother);
+  }
+  .pillar:nth-child(2){border-left-color:var(--father);}
+  .pillar .label{margin-bottom:0.5rem;}
+  .pillar p{margin:0; font-size:0.95rem; color:var(--ink-soft);}
+
+  /* ---------- CV ---------- */
+  .cv-block{margin-bottom:2.8rem;}
+  .cv-block:last-child{margin-bottom:0;}
+  .cv-block > .label{margin-bottom:1.2rem;}
+
+  .entry{
+    display:grid;
+    grid-template-columns:140px 1fr;
+    gap:1.5rem;
+    margin-bottom:1.8rem;
+  }
+  @media (max-width:640px){
+    .entry{grid-template-columns:1fr; gap:0.4rem;}
+  }
+  .entry:last-child{margin-bottom:0;}
+  .entry .when{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.8rem;
+    color:var(--ink-soft);
+    padding-top:0.2rem;
+  }
+  .entry .what h3{font-size:1.08rem;}
+  .entry .org{
+    font-size:0.92rem;
+    color:var(--ink-soft);
+    margin-top:0.15rem;
+  }
+  .entry .org strong{color:var(--ink); font-weight:500;}
+  .entry ul{
+    margin:0.7rem 0 0 0;
+    padding-left:1.1rem;
+    font-size:0.94rem;
+    color:var(--ink-soft);
+  }
+  .entry li{margin-bottom:0.4rem;}
+  .entry li:last-child{margin-bottom:0;}
+  .placeholder{
+    font-style:italic;
+    color:#A69A7C;
+  }
+
+  .skills-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));
+    gap:1.4rem;
+  }
+  .skill-cat .label{margin-bottom:0.6rem;}
+  .skill-cat .items{
+    display:flex; flex-wrap:wrap; gap:0.4rem;
+  }
+  .skill-cat .items span{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem;
+    padding:0.3rem 0.6rem;
+    background:var(--paper-dim);
+    border-radius:3px;
+    color:var(--ink);
+  }
+
+  /* ---------- publications ---------- */
+  .pub-empty{
+    padding:2rem;
+    background:var(--paper-dim);
+    border-radius:4px;
+    border-left:3px solid var(--line);
+  }
+  .pub-empty .label{color:#A69A7C; margin-bottom:0.5rem;}
+  .pub-empty p{margin:0; color:var(--ink-soft); font-size:0.95rem;}
+
+  /* ---------- now ---------- */
+  .now-empty{
+    padding:2rem;
+    background:var(--paper-dim);
+    border-radius:4px;
+    border-left:3px solid var(--father);
+  }
+  .now-empty p{margin:0; color:var(--ink-soft); font-size:0.95rem;}
+
+  /* ---------- contact ---------- */
+  .contact-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(200px,1fr));
+    gap:1.6rem;
+    margin-top:1.5rem;
+  }
+  .contact-item .label{margin-bottom:0.4rem;}
+  .contact-item div.val{font-size:1rem;}
+  .contact-item a{text-decoration:none; border-bottom:1px solid var(--line); transition:border-color .15s ease;}
+  .contact-item a:hover, .contact-item a:focus-visible{border-color:var(--father);}
+
+  footer{
+    max-width:var(--max);
+    margin:0 auto;
+    padding:2.5rem 1.5rem 3.5rem;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.75rem;
+    color:var(--ink-soft);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:0.5rem;
+  }
+
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--father);
+    outline-offset:3px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="name">Chinmayi <span>Bankar</span></div>
+    <input type="checkbox" id="nav-toggle">
+    <label class="burger" for="nav-toggle">≡</label>
+    <ul>
+      <li><a href="#about">about</a></li>
+      <li><a href="#cv">cv</a></li>
+      <li><a href="#publications">publications</a></li>
+      <li><a href="#now">now</a></li>
+      <li><a href="#contact">contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="hero" id="top">
+  <div class="hero-grid">
+    <div>
+      <div class="label">Computational Biology &amp; Statistics</div>
+      <h1>Chinmayi Bankar</h1>
+      <div class="role">Principal Research Associate at <strong>Moderna</strong></div>
+
+      <p class="origin">
+        I inherited one chromosome from my mother — <span class="tag m">a doctor</span> — and one from my father — <span class="tag f">a computer scientist</span>. So it felt natural to grow up wanting to be a bit of both: reading biology the way she does, and reasoning about it the way he does.
+      </p>
+
+      <div class="hero-links">
+        <a href="mailto:chinmayibankar@gmail.com">Email →</a>
+        <a href="https://www.linkedin.com/in/chinmayi-bankar" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/chinmayibankar" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+
+    <div class="helix-wrap" aria-hidden="true">
+      <svg viewBox="0 0 220 610" xmlns="http://www.w3.org/2000/svg">
+        <!-- rungs -->
+        <line class="rung" x1="131.4" y1="10" x2="88.6" y2="10" />
+        <line class="rung" x1="154.9" y1="28" x2="65.1" y2="28" />
+        <line class="rung" x1="146.6" y1="46" x2="73.4" y2="46" />
+        <line class="rung" x1="76.3" y1="82" x2="143.7" y2="82" />
+        <line class="rung" x1="64.3" y1="100" x2="155.7" y2="100" />
+        <line class="rung" x1="84.8" y1="118" x2="135.2" y2="118" />
+        <line class="rung" x1="123.2" y1="136" x2="96.8" y2="136" />
+        <line class="rung" x1="152.2" y1="154" x2="67.8" y2="154" />
+        <line class="rung" x1="151.2" y1="172" x2="68.8" y2="172" />
+        <line class="rung" x1="121.0" y1="190" x2="99.0" y2="190" />
+        <line class="rung" x1="83.0" y1="208" x2="137.0" y2="208" />
+        <line class="rung" x1="64.1" y1="226" x2="155.9" y2="226" />
+        <line class="rung" x1="77.9" y1="244" x2="142.1" y2="244" />
+        <line class="rung" x1="114.4" y1="262" x2="105.6" y2="262" />
+        <line class="rung" x1="147.9" y1="280" x2="72.1" y2="280" />
+        <line class="rung" x1="154.4" y1="298" x2="65.6" y2="298" />
+        <line class="rung" x1="129.4" y1="316" x2="90.6" y2="316" />
+        <line class="rung" x1="90.6" y1="334" x2="129.4" y2="334" />
+        <line class="rung" x1="65.6" y1="352" x2="154.4" y2="352" />
+        <line class="rung" x1="72.1" y1="370" x2="147.9" y2="370" />
+        <line class="rung" x1="105.6" y1="388" x2="114.4" y2="388" />
+        <line class="rung" x1="142.1" y1="406" x2="77.9" y2="406" />
+
+        <!-- mother's strand: medicine -->
+        <path class="helix-strand-a" d="M 131.4 10 L 138.8 14 L 145.2 18 L 150.2 22 L 153.7 26 L 155.7 30 L 155.9 34 L 154.4 38 L 151.2 42 L 146.6 46 L 140.5 50 L 133.3 54 L 125.3 58 L 116.6 62 L 107.8 66 L 99.0 70 L 90.6 74 L 83.0 78 L 76.3 82 L 70.9 86 L 67.0 90 L 64.7 94 L 64.0 98 L 65.1 102 L 67.8 106 L 72.1 110 L 77.9 114 L 84.8 118 L 92.7 122 L 101.2 126 L 110.0 130 L 118.8 134 L 127.3 138 L 135.2 142 L 142.1 146 L 147.9 150 L 152.2 154 L 154.9 158 L 156.0 162 L 155.3 166 L 153.0 170 L 149.1 174 L 143.7 178 L 137.0 182 L 129.4 186 L 121.0 190 L 112.2 194 L 103.4 198 L 94.7 202 L 86.7 206 L 79.5 210 L 73.4 214 L 68.8 218 L 65.6 222 L 64.1 226 L 64.3 230 L 66.3 234 L 69.8 238 L 74.8 242 L 81.2 246 L 88.6 250 L 96.8 254 L 105.6 258 L 114.4 262 L 123.2 266 L 131.4 270 L 138.8 274 L 145.2 278 L 150.2 282 L 153.7 286 L 155.7 290 L 155.9 294 L 154.4 298 L 151.2 302 L 146.6 306 L 140.5 310 L 133.3 314 L 125.3 318 L 116.6 322 L 107.8 326 L 99.0 330 L 90.6 334 L 83.0 338 L 76.3 342 L 70.9 346 L 67.0 350 L 64.7 354 L 64.0 358 L 65.1 362 L 67.8 366 L 72.1 370 L 77.9 374 L 84.8 378 L 92.7 382 L 101.2 386 L 110.0 390 L 118.8 394 L 127.3 398 L 135.2 402 L 142.1 406 L 147.9 410 L 152.2 414 L 154.9 418 L 154.9 422 L 152.3 426 L 148.2 430 L 143.0 434 L 137.0 438 L 130.6 442 L 124.0 446 L 117.5 450 L 111.4 454 L 106.0 458 L 101.4 462 L 97.7 466 L 95.0 470 L 93.2 474 L 92.5 478 L 92.6 482 L 93.5 486 L 94.9 490 L 96.9 494 L 99.1 498 L 101.4 502 L 103.7 506 L 105.9 510 L 107.8 514 L 109.4 518 L 110.6 522 L 111.4 526 L 111.8 530 L 111.9 534 L 111.8 538 L 111.5 542 L 111.1 546 L 110.7 550 L 110.3 554 L 110.0 558" />
+
+        <!-- father's strand: computer science -->
+        <path class="helix-strand-b" d="M 88.6 10 L 81.2 14 L 74.8 18 L 69.8 22 L 66.3 26 L 64.3 30 L 64.1 34 L 65.6 38 L 68.8 42 L 73.4 46 L 79.5 50 L 86.7 54 L 94.7 58 L 103.4 62 L 112.2 66 L 121.0 70 L 129.4 74 L 137.0 78 L 143.7 82 L 149.1 86 L 153.0 90 L 155.3 94 L 156.0 98 L 154.9 102 L 152.2 106 L 147.9 110 L 142.1 114 L 135.2 118 L 127.3 122 L 118.8 126 L 110.0 130 L 101.2 134 L 92.7 138 L 84.8 142 L 77.9 146 L 72.1 150 L 67.8 154 L 65.1 158 L 64.0 162 L 64.7 166 L 67.0 170 L 70.9 174 L 76.3 178 L 83.0 182 L 90.6 186 L 99.0 190 L 107.8 194 L 116.6 198 L 125.3 202 L 133.3 206 L 140.5 210 L 146.6 214 L 151.2 218 L 154.4 222 L 155.9 226 L 155.7 230 L 153.7 234 L 150.2 238 L 145.2 242 L 138.8 246 L 131.4 250 L 123.2 254 L 114.4 258 L 105.6 262 L 96.8 266 L 88.6 270 L 81.2 274 L 74.8 278 L 69.8 282 L 66.3 286 L 64.3 290 L 64.1 294 L 65.6 298 L 68.8 302 L 73.4 306 L 79.5 310 L 86.7 314 L 94.7 318 L 103.4 322 L 112.2 326 L 121.0 330 L 129.4 334 L 137.0 338 L 143.7 342 L 149.1 346 L 153.0 350 L 155.3 354 L 156.0 358 L 154.9 362 L 152.2 366 L 147.9 370 L 142.1 374 L 135.2 378 L 127.3 382 L 118.8 386 L 110.0 390 L 101.2 394 L 92.7 398 L 84.8 402 L 77.9 406 L 72.1 410 L 67.8 414 L 65.1 418 L 65.1 422 L 67.7 426 L 71.8 430 L 77.0 434 L 83.0 438 L 89.4 442 L 96.0 446 L 102.5 450 L 108.6 454 L 114.0 458 L 118.6 462 L 122.3 466 L 125.0 470 L 126.8 474 L 127.5 478 L 127.4 482 L 126.5 486 L 125.1 490 L 123.1 494 L 120.9 498 L 118.6 502 L 116.3 506 L 114.1 510 L 112.2 514 L 110.6 518 L 109.4 522 L 108.6 526 L 108.2 530 L 108.1 534 L 108.2 538 L 108.5 542 L 108.9 546 L 109.3 550 L 109.7 554 L 110.0 558" />
+
+        <!-- convergence: the two strands become one -->
+        <line x1="110" y1="558" x2="110" y2="580" stroke="var(--ink)" stroke-width="3" stroke-linecap="round" />
+        <circle class="converge-dot" cx="110" cy="583" r="4" />
+        <text class="converge-label" x="110" y="602">CHINMAYI</text>
+      </svg>
+      <div class="helix-legend">
+        <span class="m"><i></i>medicine</span>
+        <span class="f"><i></i>computer science</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="eyebrow"><span class="dot"></span><span class="label">About</span></div>
+  <div class="about-body">
+    <p>
+      I work at the intersection of computational biology and statistics, currently as a Principal Research Associate at Moderna, where I focus on turning complex biological data into decisions people can act on.
+    </p>
+    <p class="placeholder">
+      [Add 2–3 more sentences here: what you actually work on day to day at Moderna — e.g. mRNA platform data, clinical statistics, computational pipelines — and what kind of problems energize you. I kept the framing open so you can drop this in directly.]
+    </p>
+  </div>
+
+  <div class="pillars">
+    <div class="pillar">
+      <div class="label">From the doctor's side</div>
+      <p>Biological grounding — thinking in mechanisms, disease, and what actually happens in a cell or a patient.</p>
+    </div>
+    <div class="pillar">
+      <div class="label">From the computer scientist's side</div>
+      <p>Statistical and computational rigor — building models and pipelines that hold up under scrutiny.</p>
+    </div>
+  </div>
+</section>
+
+<section id="cv">
+  <div class="eyebrow"><span class="dot"></span><span class="label">Curriculum Vitae</span></div>
+
+  <div class="cv-block">
+    <div class="label">Experience</div>
+    <div class="entry">
+      <div class="when">2021 — Current</div>
+      <div class="what">
+        <h3>Principal Research Associate</h3>
+        <div class="org"><strong>Moderna</strong></div>
+        <ul>
+          <li class="placeholder">Add 2–4 bullet points here — the work you're proudest of, framed as outcomes (e.g. "Built X pipeline that reduced Y" or "Led statistical analysis for Z"). This is the section hiring managers read most closely.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="cv-block">
+    <div class="label">Education</div>
+    <div class="entry">
+      <div class="when">2019 — 2021</div>
+      <div class="what">
+        <h3>M.S.E., Computational Medicine and Neuroengineering</h3>
+        <div class="org"><strong>Johns Hopkins University</strong></div>
+      </div>
+    </div>
+    <div class="entry">
+      <div class="when placeholder">add years</div>
+      <div class="what">
+        <h3 class="placeholder">Undergraduate degree (add here)</h3>
+        <div class="org placeholder">Institution, major/minor</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cv-block">
+    <div class="label">Skills</div>
+    <div class="skills-grid">
+      <div class="skill-cat">
+        <div class="label">Languages</div>
+        <div class="items"><span>R</span><span>Python</span></div>
+      </div>
+      <div class="skill-cat">
+        <div class="label">Other</div>
+        <div class="items"><span>Brain power</span></div>
+      </div>
+      <div class="skill-cat">
+        <div class="label placeholder">add more</div>
+        <div class="items"><span class="placeholder">e.g. Statistics, ML tools, Bioconductor…</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="publications">
+  <div class="eyebrow"><span class="dot"></span><span class="label">Publications</span></div>
+  <div class="pub-empty">
+    <div class="label">To be added</div>
+    <p>Publication list coming soon. Send over titles, journals, years, and links (or a DOI list) and I'll format this as a proper citation list.</p>
+  </div>
+</section>
+
+<section id="now">
+  <div class="eyebrow"><span class="dot"></span><span class="label">Now</span></div>
+  <div class="now-empty">
+    <p>What I'm working on right now — coming soon.</p>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="eyebrow"><span class="dot"></span><span class="label">Get in touch</span></div>
+  <div class="contact-grid">
+    <div class="contact-item">
+      <div class="label">Email</div>
+      <div class="val"><a href="mailto:chinmayibankar@gmail.com">chinmayibankar@gmail.com</a></div>
+    </div>
+    <div class="contact-item">
+      <div class="label">Location</div>
+      <div class="val">Boston, MA</div>
+    </div>
+    <div class="contact-item">
+      <div class="label">LinkedIn</div>
+      <div class="val"><a href="https://www.linkedin.com/in/chinmayi-bankar" target="_blank" rel="noopener">chinmayi-bankar</a></div>
+    </div>
+    <div class="contact-item">
+      <div class="label">GitHub</div>
+      <div class="val"><a href="https://github.com/chinmayibankar" target="_blank" rel="noopener">chinmayibankar</a></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>Static HTML · Boston, MA</span>
+  <span>&copy; 2026 Chinmayi Bankar</span>
+</footer>
+
+</body>
+</html>
