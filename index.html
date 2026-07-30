@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#FAF8F3">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=DM+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
     --paper: #F3F6F8;
@@ -32,13 +32,13 @@
     margin:0;
     background:var(--paper);
     color:var(--ink);
-    font-family:'IBM Plex Sans', sans-serif;
+    font-family:'DM Sans', sans-serif;
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
   }
 
   h1,h2,h3{
-    font-family:'IBM Plex Serif', serif;
+    font-family:'Source Serif 4', serif;
     font-weight:600;
     margin:0;
     color:var(--ink);
@@ -52,6 +52,13 @@
     letter-spacing:0.12em;
     text-transform:uppercase;
     color:var(--ink-soft);
+  }
+
+  .eyebrow .label{
+    font-size:0.92rem;
+    font-weight:600;
+    letter-spacing:0.1em;
+    color:var(--ink);
   }
 
   /* ---------- strand motif ---------- */
@@ -88,7 +95,7 @@
     align-items:center;
   }
   nav .name{
-    font-family:'IBM Plex Serif', serif;
+    font-family:'Source Serif 4', serif;
     font-weight:600;
     font-size:1.05rem;
   }
@@ -360,6 +367,12 @@
     margin-top:0.15rem;
   }
   .entry .org strong{color:var(--ink); font-weight:500;}
+  .entry .award{
+    margin-top:0.35rem;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem;
+    color:var(--father);
+  }
   .entry ul{
     margin:0.7rem 0 0 0;
     padding-left:1.1rem;
@@ -392,14 +405,58 @@
   }
 
   /* ---------- publications ---------- */
-  .pub-empty{
-    padding:2rem;
+  .pub-loading, .pub-empty-msg{
+    padding:1.4rem 1.6rem;
     background:var(--paper-dim);
     border-radius:4px;
     border-left:3px solid var(--line);
+    color:var(--ink-soft);
+    font-size:0.92rem;
   }
-  .pub-empty .label{color:#A69A7C; margin-bottom:0.5rem;}
-  .pub-empty p{margin:0; color:var(--ink-soft); font-size:0.95rem;}
+  .pub-entry{
+    display:grid;
+    grid-template-columns:70px 1fr;
+    gap:1.2rem;
+    padding:1rem 0;
+    border-bottom:1px solid var(--line);
+  }
+  @media (max-width:640px){
+    .pub-entry{grid-template-columns:1fr; gap:0.3rem;}
+  }
+  .pub-entry:first-child{padding-top:0;}
+  .pub-entry:last-child{border-bottom:none;}
+  .pub-year{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.82rem;
+    color:var(--ink-soft);
+    padding-top:0.15rem;
+  }
+  .pub-title{
+    font-size:1rem;
+    font-weight:500;
+    text-decoration:none;
+    color:var(--ink);
+    border-bottom:1px solid transparent;
+    transition:border-color .15s ease;
+  }
+  .pub-title:hover, .pub-title:focus-visible{border-color:var(--father);}
+  .pub-venue{
+    margin-top:0.3rem;
+    font-size:0.88rem;
+    font-style:italic;
+    color:var(--ink-soft);
+  }
+  .pub-fallback-note{
+    margin-top:1.4rem;
+    font-size:0.85rem;
+    color:var(--ink-soft);
+  }
+  .pub-fallback-note a{
+    color:var(--father);
+    text-decoration:none;
+    border-bottom:1px solid var(--line);
+  }
+  .pub-fallback-note a:hover{border-color:var(--father);}
 
   /* ---------- now ---------- */
   .now-empty{
@@ -411,6 +468,13 @@
   .now-empty p{margin:0; color:var(--ink-soft); font-size:0.95rem;}
 
   /* ---------- contact ---------- */
+  .contact-intro{
+    max-width:55ch;
+    font-size:1.02rem;
+    color:var(--ink-soft);
+    margin-top:0.3rem;
+    margin-bottom:1.8rem;
+  }
   .contact-grid{
     display:grid;
     grid-template-columns:repeat(auto-fit, minmax(200px,1fr));
@@ -446,11 +510,11 @@
     <input type="checkbox" id="nav-toggle">
     <label class="burger" for="nav-toggle">≡</label>
     <ul>
-      <li><a href="#about">about</a></li>
-      <li><a href="#cv">cv</a></li>
-      <li><a href="#publications">publications</a></li>
-      <li><a href="#now">now</a></li>
-      <li><a href="#contact">contact</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#cv">CV</a></li>
+      <li><a href="#publications">Publications</a></li>
+      <li><a href="#now">Now</a></li>
+      <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
 </header>
@@ -524,7 +588,7 @@
     <div class="role">Principal Research Associate at <strong>Moderna</strong></div>
 
     <p class="origin">
-      I inherited one X chromosome from my mother, <span class="tag m">a doctor</span>, and one X chromosome from my father, <span class="tag f">a computer scientist</span>. So it felt natural to grow up wanting to be a bit of both: reading biology the way she does, and reasoning about it the way he does.
+      I inherited one X chromosome from my mother, <span class="tag m">a doctor</span>, and one X chromosome from my father, <span class="tag f">a computer scientist</span>. It felt natural, growing up, to want to be a bit of both: reading biology and helping save lives the way she does, and reasoning through the data the way he does. The messier or more complicated the problem, the more at home I feel in it.
     </p>
 
     <div class="hero-links">
@@ -539,10 +603,13 @@
   <div class="eyebrow"><span class="dot"></span><span class="label">About</span></div>
   <div class="about-body">
     <p>
-      I work at the intersection of biology and statistics, currently as a Principal Research Associate at Moderna, where I focus on turning complex biological data into decisions people can act on.
+      I work at the intersection of statistics and biology, currently as a Principal Research Associate at Moderna, where I focus on turning complex data into translational decisions that scientists can act on.
     </p>
-    <p class="placeholder">
-      [Add 2-3 more sentences here: what you actually work on day to day at Moderna, e.g. mRNA platform data, clinical statistics, computational pipelines, and what kind of problems energize you. I kept the framing open so you can drop this in directly.]
+    <p>
+      My work spans non-clinical, chemistry and delivery science data, along with in vitro and in vivo studies. Alongside the analysis itself, I build reproducible pipelines and internal tools that turn repetitive, manual analyses into something scientists can run in a fraction of the time.
+    </p>
+    <p>
+      Right now, I'm also expanding into the omics space, a newer area for me that I'm excited to grow into.
     </p>
   </div>
 
@@ -592,6 +659,7 @@
       <div class="what">
         <h3>M.S.E., Computational Medicine and Neuroengineering</h3>
         <div class="org"><strong>Johns Hopkins University</strong>, Baltimore, USA</div>
+        <div class="award">Global Health Established Field Placement Award, a year-long funded global health fellowship</div>
       </div>
     </div>
     <div class="entry">
@@ -608,15 +676,19 @@
     <div class="skills-grid">
       <div class="skill-cat">
         <div class="label">Languages</div>
-        <div class="items"><span>R</span><span>Python</span></div>
+        <div class="items"><span>R</span><span>Python</span><span>C++</span><span>C</span><span>MATLAB</span></div>
+      </div>
+      <div class="skill-cat">
+        <div class="label">Key Tools</div>
+        <div class="items"><span>ggplot</span><span>DESeq2</span><span>Limma</span><span>Bioconductor</span></div>
       </div>
       <div class="skill-cat">
         <div class="label">Other</div>
-        <div class="items"><span>Brain power</span></div>
+        <div class="items"><span>Brain power</span><span>Empathy</span></div>
       </div>
       <div class="skill-cat">
         <div class="label placeholder">add more</div>
-        <div class="items"><span class="placeholder">e.g. Statistics, ML tools, Bioconductor…</span></div>
+        <div class="items"><span class="placeholder">e.g. Statistics, ML tools…</span></div>
       </div>
     </div>
   </div>
@@ -624,11 +696,55 @@
 
 <section id="publications">
   <div class="eyebrow"><span class="dot"></span><span class="label">Publications</span></div>
-  <div class="pub-empty">
-    <div class="label">To be added</div>
-    <p>Publication list coming soon. Send over titles, journals, years, and links (or a DOI list) and I'll format this as a proper citation list.</p>
+  <div id="pub-list" class="pub-list">
+    <div class="pub-loading">Loading publications from Semantic Scholar…</div>
   </div>
+  <p class="pub-fallback-note">
+    Full list also available on <a href="https://www.semanticscholar.org/author/Chinmayi-Bankar/87844693" target="_blank" rel="noopener">Semantic Scholar</a> and <a href="https://orcid.org/0009-0008-4398-021X" target="_blank" rel="noopener">ORCID</a>.
+  </p>
 </section>
+
+<script>
+(function() {
+  const listEl = document.getElementById('pub-list');
+  const AUTHOR_ID = '87844693';
+  const API_URL = `https://api.semanticscholar.org/graph/v1/author/${AUTHOR_ID}/papers?fields=title,year,venue,externalIds,url`;
+
+  fetch(API_URL)
+    .then(res => {
+      if (!res.ok) throw new Error('Request failed: ' + res.status);
+      return res.json();
+    })
+    .then(data => {
+      const papers = (data.data || []).filter(p => p.title);
+      if (papers.length === 0) {
+        listEl.innerHTML = '<div class="pub-empty-msg">No publications found yet. Check back soon, or see the links below.</div>';
+        return;
+      }
+      // newest first
+      papers.sort((a, b) => (b.year || 0) - (a.year || 0));
+
+      listEl.innerHTML = papers.map(p => {
+        const year = p.year ? p.year : '';
+        const venue = p.venue ? p.venue : '';
+        const doi = p.externalIds && p.externalIds.DOI ? p.externalIds.DOI : null;
+        const link = doi ? `https://doi.org/${doi}` : (p.url || '#');
+        return `
+          <div class="pub-entry">
+            <div class="pub-year">${year}</div>
+            <div class="pub-body">
+              <a class="pub-title" href="${link}" target="_blank" rel="noopener">${p.title}</a>
+              ${venue ? `<div class="pub-venue">${venue}</div>` : ''}
+            </div>
+          </div>`;
+      }).join('');
+    })
+    .catch(err => {
+      listEl.innerHTML = '<div class="pub-empty-msg">Publications couldn\'t be loaded right now. See the links below for the full list.</div>';
+      console.warn('Semantic Scholar fetch failed:', err);
+    });
+})();
+</script>
 
 <section id="now">
   <div class="eyebrow"><span class="dot"></span><span class="label">Now</span></div>
@@ -652,14 +768,11 @@
 
 <section id="contact">
   <div class="eyebrow"><span class="dot"></span><span class="label">Get in touch</span></div>
+  <p class="contact-intro">Happy to chat about my work, my journey, or to meet someone new in the omics space.</p>
   <div class="contact-grid">
     <div class="contact-item">
       <div class="label">Email</div>
       <div class="val"><a href="mailto:chinmayibankar@gmail.com">chinmayibankar@gmail.com</a></div>
-    </div>
-    <div class="contact-item">
-      <div class="label">Location</div>
-      <div class="val">Boston, MA</div>
     </div>
     <div class="contact-item">
       <div class="label">LinkedIn</div>
@@ -668,6 +781,10 @@
     <div class="contact-item">
       <div class="label">GitHub</div>
       <div class="val"><a href="https://github.com/chinmayibankar" target="_blank" rel="noopener">chinmayibankar</a></div>
+    </div>
+    <div class="contact-item">
+      <div class="label">Location</div>
+      <div class="val">Boston, MA</div>
     </div>
   </div>
 </section>
