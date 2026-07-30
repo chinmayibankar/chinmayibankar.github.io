@@ -4,20 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Chinmayi Bankar · Computational Biologist &amp; Statistician</title>
-<meta name="description" content="Chinmayi Bankar — Principal Research Associate at Moderna. Computational biology, statistics, and the space in between.">
+<meta name="description" content="Chinmayi Bankar, Principal Research Associate at Moderna. Biology, statistics, and the space in between.">
 <meta name="theme-color" content="#FAF8F3">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper: #FAF8F3;
-    --paper-dim: #F1EEE6;
-    --ink: #1E2A28;
-    --ink-soft: #4A5754;
-    --mother: #B4533E;   /* medicine — warm clay-red */
-    --father: #2F5D62;   /* computer science — deep teal */
-    --line: #DCD6C6;
+    --paper: #F3F6F8;
+    --paper-dim: #E6ECF1;
+    --ink: #10181F;
+    --ink-soft: #4A5A68;
+    --mother: #B23A48;   /* medicine — clinical red */
+    --father: #1D5C73;   /* computer science — steel blue */
+    --line: #D4DEE5;
     --max: 880px;
   }
 
@@ -38,7 +38,7 @@
   }
 
   h1,h2,h3{
-    font-family:'Source Serif 4', serif;
+    font-family:'IBM Plex Serif', serif;
     font-weight:600;
     margin:0;
     color:var(--ink);
@@ -88,10 +88,11 @@
     align-items:center;
   }
   nav .name{
-    font-family:'Source Serif 4', serif;
+    font-family:'IBM Plex Serif', serif;
     font-weight:600;
     font-size:1.05rem;
   }
+  nav .name .first{color:var(--mother);}
   nav .name span{color:var(--father);}
   nav ul{
     list-style:none;
@@ -154,67 +155,127 @@
     padding-bottom:3rem;
     border-bottom:1px solid var(--line);
   }
-  .hero-grid{
-    display:grid;
-    grid-template-columns:1fr 220px;
-    gap:2.5rem;
-    align-items:start;
-  }
-  @media (max-width:760px){
-    .hero-grid{grid-template-columns:1fr;}
-    .helix-wrap{order:-1; margin:0 auto 1.5rem; width:150px;}
-  }
-  .helix-wrap{
-    position:relative;
-    width:220px;
-  }
-  .helix-wrap svg{width:100%; height:auto; display:block;}
-  .strand-a-front{fill:none; stroke:var(--mother); stroke-width:3.6; stroke-linecap:round; opacity:1;}
-  .strand-a-back{fill:none; stroke:var(--mother); stroke-width:2.3; stroke-linecap:round; opacity:0.45;}
-  .strand-b-front{fill:none; stroke:var(--father); stroke-width:3.6; stroke-linecap:round; opacity:1;}
-  .strand-b-back{fill:none; stroke:var(--father); stroke-width:2.3; stroke-linecap:round; opacity:0.45;}
-  .rung{stroke:var(--line); stroke-width:1.5;}
-  .helix-wrap .converge-label{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:10.5px;
-    letter-spacing:0.06em;
-    fill:var(--ink-soft);
-    text-anchor:middle;
-  }
-  .helix-wrap .converge-dot{fill:var(--ink);}
-  .helix-legend{
+  .hero-stack{
     display:flex;
-    justify-content:center;
-    gap:1rem;
-    margin-top:0.6rem;
-    font-family:'IBM Plex Mono', monospace;
-    font-size:0.68rem;
-    color:var(--ink-soft);
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
   }
-  .helix-legend span{display:flex; align-items:center; gap:0.35rem;}
-  .helix-legend i{width:8px; height:8px; border-radius:50%; display:inline-block;}
-  .helix-legend .m i{background:var(--mother);}
-  .helix-legend .f i{background:var(--father);}
 
-  @keyframes helixSway{
-    0%,100%{transform:rotate(-1.1deg);}
-    50%{transform:rotate(1.1deg);}
+  /* ---------- 3D DNA helix ---------- */
+  .dna-wrap{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    width:190px;
+    margin:0 auto;
   }
-  .helix-wrap svg{
-    transform-origin:50% 15%;
-    animation:helixSway 7s ease-in-out infinite;
+  .dna-labels{
+    display:flex;
+    justify-content:space-between;
+    width:180px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.66rem;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    margin-bottom:0.7rem;
+  }
+  .dna-labels .a{color:var(--mother);}
+  .dna-labels .b{color:var(--father);}
+
+  .dna-stage-outer{
+    perspective:700px;
+    width:180px;
+    height:262px;
+  }
+  .dna-stage{
+    position:relative;
+    width:100%;
+    height:100%;
+    transform-style:preserve-3d;
+    animation:dnaSpin 7s linear infinite;
+  }
+  @keyframes dnaSpin{
+    from{transform:rotateY(0deg);}
+    to{transform:rotateY(360deg);}
+  }
+
+  .backbone{
+    position:absolute;
+    left:50%;
+    top:0;
+    height:2.5px;
+    border-radius:2px;
+    transform-style:preserve-3d;
+  }
+  .backbone.a{background:var(--mother); opacity:0.85;}
+  .backbone.b{background:var(--father); opacity:0.85;}
+
+  .rung3d{
+    position:absolute;
+    left:50%;
+    top:calc(var(--i) * 16px);
+    width:74px;
+    height:2px;
+    margin-left:-37px;
+    transform-style:preserve-3d;
+    transform:rotateY(calc(90deg + (var(--i) * 40deg)));
+  }
+  .rung3d .bar{
+    position:absolute;
+    inset:0;
+    background:var(--line);
+    border-radius:2px;
+    animation:rungGlow 2.8s ease-in-out infinite;
+    animation-delay:calc(var(--i) * 0.1s);
+  }
+  .rung3d .dot{
+    position:absolute;
+    top:-3px;
+    width:8px;
+    height:8px;
+    border-radius:50%;
+  }
+  .rung3d .dot.a{
+    left:-4px;
+    background:var(--mother);
+    animation:dotGlowA 2.8s ease-in-out infinite;
+    animation-delay:calc(var(--i) * 0.1s);
+  }
+  .rung3d .dot.b{
+    right:-4px;
+    background:var(--father);
+    animation:dotGlowB 2.8s ease-in-out infinite;
+    animation-delay:calc(var(--i) * 0.1s);
+  }
+  @keyframes rungGlow{
+    0%,100%{opacity:0.5;}
+    50%{opacity:1;}
+  }
+  @keyframes dotGlowA{
+    0%,100%{box-shadow:0 0 0 rgba(180,83,62,0);}
+    50%{box-shadow:0 0 7px 2px rgba(180,83,62,0.55);}
+  }
+  @keyframes dotGlowB{
+    0%,100%{box-shadow:0 0 0 rgba(47,93,98,0);}
+    50%{box-shadow:0 0 7px 2px rgba(47,93,98,0.55);}
   }
   @media (prefers-reduced-motion: reduce){
-    .helix-wrap svg{animation:none;}
+    .dna-stage{animation:none;}
+    .rung3d .bar, .rung3d .dot{animation:none;}
   }
-  .hero .label{margin-bottom:1rem;}
+
+  .hero .label{margin-top:1.6rem; margin-bottom:0.5rem;}
+
   .hero h1{
     font-size:clamp(1.9rem, 4.6vw, 3.1rem);
     line-height:1.12;
     white-space:nowrap;
   }
+  .hero h1 .first{color:var(--mother);}
+  .hero h1 .last{color:var(--father);}
   .hero .role{
-    margin-top:0.9rem;
+    margin-top:0.6rem;
     font-size:1.05rem;
     color:var(--ink-soft);
   }
@@ -224,6 +285,7 @@
     max-width:60ch;
     font-size:1.12rem;
     line-height:1.65;
+    text-align:left;
   }
   .origin .tag{
     font-family:'IBM Plex Mono', monospace;
@@ -237,6 +299,7 @@
   .hero-links{
     margin-top:2.2rem;
     display:flex; gap:1.3rem; flex-wrap:wrap;
+    justify-content:center;
   }
   .hero-links a{
     font-family:'IBM Plex Mono', monospace;
@@ -379,7 +442,7 @@
 
 <header>
   <nav>
-    <div class="name">Chinmayi <span>Bankar</span></div>
+    <div class="name"><span class="first">Chinmayi</span> <span>Bankar</span></div>
     <input type="checkbox" id="nav-toggle">
     <label class="burger" for="nav-toggle">≡</label>
     <ul>
@@ -393,54 +456,81 @@
 </header>
 
 <section class="hero" id="top">
-  <div class="hero-grid">
-    <div>
-      <div class="label">Computational Biology &amp; Statistics</div>
-      <h1>Chinmayi Bankar</h1>
-      <div class="role">Principal Research Associate at <strong>Moderna</strong></div>
+  <div class="hero-stack">
+    <div class="dna-wrap" aria-hidden="true">
+      <div class="dna-labels">
+        <span class="a">Medicine</span>
+        <span class="b">Computer Science</span>
+      </div>
+      <div class="dna-stage-outer">
+        <div class="dna-stage">
+          <div class="backbone a" style="width:29.94px;margin-left:-14.97px;transform:translate3d(-11.89px,8.0px,-32.67px) rotateY(-160.0deg) rotateZ(32.3deg);"></div>
+          <div class="backbone a" style="width:29.94px;margin-left:-14.97px;transform:translate3d(-30.11px,24.0px,-17.38px) rotateY(-120.0deg) rotateZ(32.3deg);"></div>
+          <div class="backbone a" style="width:29.94px;margin-left:-14.97px;transform:translate3d(-34.24px,40.0px,6.04px) rotateY(-80.0deg) rotateZ(32.3deg);"></div>
+          <div class="backbone a" style="width:29.94px;margin-left:-14.97px;transform:translate3d(-22.35px,56.0px,26.63px) rotateY(-40.0deg) rotateZ(32.3deg);"></div>
+          <div class="backbone a" style="width:29.94px;margin-left:-14.97px;transform:translate3d(0.0px,72.0px,34.77px) rotateY(-0.0deg) rotateZ(32.3deg);"></div>
+          <div class="backbone a" style="width:29.94px;margin-left:-14.97px;transform:translate3d(22.35px,88.0px,26.63px) rotateY(40.0deg) rotateZ(32.3deg);"></div>
+          <div class="backbone a" style="width:29.94px;margin-left:-14.97px;transform:translate3d(34.24px,104.0px,6.04px) rotateY(80.0deg) rotateZ(32.3deg);"></div>
+          <div class="backbone a" style="width:29.94px;margin-left:-14.97px;transform:translate3d(30.11px,120.0px,-17.38px) rotateY(120.0deg) rotateZ(32.3deg);"></div>
+          <div class="backbone a" style="width:29.94px;margin-left:-14.97px;transform:translate3d(11.89px,136.0px,-32.67px) rotateY(160.0deg) rotateZ(32.3deg);"></div>
+          <div class="backbone a" style="width:29.94px;margin-left:-14.97px;transform:translate3d(-11.89px,152.0px,-32.67px) rotateY(-160.0deg) rotateZ(32.3deg);"></div>
+          <div class="backbone a" style="width:29.94px;margin-left:-14.97px;transform:translate3d(-30.11px,168.0px,-17.38px) rotateY(-120.0deg) rotateZ(32.3deg);"></div>
+          <div class="backbone a" style="width:29.94px;margin-left:-14.97px;transform:translate3d(-34.24px,184.0px,6.04px) rotateY(-80.0deg) rotateZ(32.3deg);"></div>
+          <div class="backbone a" style="width:29.94px;margin-left:-14.97px;transform:translate3d(-22.35px,200.0px,26.63px) rotateY(-40.0deg) rotateZ(32.3deg);"></div>
+          <div class="backbone a" style="width:29.94px;margin-left:-14.97px;transform:translate3d(-0.0px,216.0px,34.77px) rotateY(-0.0deg) rotateZ(32.3deg);"></div>
+          <div class="backbone a" style="width:29.94px;margin-left:-14.97px;transform:translate3d(22.35px,232.0px,26.63px) rotateY(40.0deg) rotateZ(32.3deg);"></div>
+          <div class="backbone a" style="width:29.94px;margin-left:-14.97px;transform:translate3d(34.24px,248.0px,6.04px) rotateY(80.0deg) rotateZ(32.3deg);"></div>
 
-      <p class="origin">
-        I inherited one chromosome from my mother — <span class="tag m">a doctor</span> — and one from my father — <span class="tag f">a computer scientist</span>. So it felt natural to grow up wanting to be a bit of both: reading biology the way she does, and reasoning about it the way he does.
-      </p>
+          <div class="backbone b" style="width:29.94px;margin-left:-14.97px;transform:translate3d(11.89px,8.0px,32.67px) rotateY(20.0deg) rotateZ(32.3deg);"></div>
+          <div class="backbone b" style="width:29.94px;margin-left:-14.97px;transform:translate3d(30.11px,24.0px,17.38px) rotateY(60.0deg) rotateZ(32.3deg);"></div>
+          <div class="backbone b" style="width:29.94px;margin-left:-14.97px;transform:translate3d(34.24px,40.0px,-6.04px) rotateY(100.0deg) rotateZ(32.3deg);"></div>
+          <div class="backbone b" style="width:29.94px;margin-left:-14.97px;transform:translate3d(22.35px,56.0px,-26.63px) rotateY(140.0deg) rotateZ(32.3deg);"></div>
+          <div class="backbone b" style="width:29.94px;margin-left:-14.97px;transform:translate3d(-0.0px,72.0px,-34.77px) rotateY(-180.0deg) rotateZ(32.3deg);"></div>
+          <div class="backbone b" style="width:29.94px;margin-left:-14.97px;transform:translate3d(-22.35px,88.0px,-26.63px) rotateY(-140.0deg) rotateZ(32.3deg);"></div>
+          <div class="backbone b" style="width:29.94px;margin-left:-14.97px;transform:translate3d(-34.24px,104.0px,-6.04px) rotateY(-100.0deg) rotateZ(32.3deg);"></div>
+          <div class="backbone b" style="width:29.94px;margin-left:-14.97px;transform:translate3d(-30.11px,120.0px,17.38px) rotateY(-60.0deg) rotateZ(32.3deg);"></div>
+          <div class="backbone b" style="width:29.94px;margin-left:-14.97px;transform:translate3d(-11.89px,136.0px,32.67px) rotateY(-20.0deg) rotateZ(32.3deg);"></div>
+          <div class="backbone b" style="width:29.94px;margin-left:-14.97px;transform:translate3d(11.89px,152.0px,32.67px) rotateY(20.0deg) rotateZ(32.3deg);"></div>
+          <div class="backbone b" style="width:29.94px;margin-left:-14.97px;transform:translate3d(30.11px,168.0px,17.38px) rotateY(60.0deg) rotateZ(32.3deg);"></div>
+          <div class="backbone b" style="width:29.94px;margin-left:-14.97px;transform:translate3d(34.24px,184.0px,-6.04px) rotateY(100.0deg) rotateZ(32.3deg);"></div>
+          <div class="backbone b" style="width:29.94px;margin-left:-14.97px;transform:translate3d(22.35px,200.0px,-26.63px) rotateY(140.0deg) rotateZ(32.3deg);"></div>
+          <div class="backbone b" style="width:29.94px;margin-left:-14.97px;transform:translate3d(0.0px,216.0px,-34.77px) rotateY(180.0deg) rotateZ(32.3deg);"></div>
+          <div class="backbone b" style="width:29.94px;margin-left:-14.97px;transform:translate3d(-22.35px,232.0px,-26.63px) rotateY(-140.0deg) rotateZ(32.3deg);"></div>
+          <div class="backbone b" style="width:29.94px;margin-left:-14.97px;transform:translate3d(-34.24px,248.0px,-6.04px) rotateY(-100.0deg) rotateZ(32.3deg);"></div>
 
-      <div class="hero-links">
-        <a href="mailto:chinmayibankar@gmail.com">Email →</a>
-        <a href="https://www.linkedin.com/in/chinmayibankar" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="https://github.com/chinmayibankar" target="_blank" rel="noopener">GitHub</a>
+          <div class="rung3d" style="--i:0"><span class="dot a"></span><span class="bar"></span><span class="dot b"></span></div>
+          <div class="rung3d" style="--i:1"><span class="dot a"></span><span class="bar"></span><span class="dot b"></span></div>
+          <div class="rung3d" style="--i:2"><span class="dot a"></span><span class="bar"></span><span class="dot b"></span></div>
+          <div class="rung3d" style="--i:3"><span class="dot a"></span><span class="bar"></span><span class="dot b"></span></div>
+          <div class="rung3d" style="--i:4"><span class="dot a"></span><span class="bar"></span><span class="dot b"></span></div>
+          <div class="rung3d" style="--i:5"><span class="dot a"></span><span class="bar"></span><span class="dot b"></span></div>
+          <div class="rung3d" style="--i:6"><span class="dot a"></span><span class="bar"></span><span class="dot b"></span></div>
+          <div class="rung3d" style="--i:7"><span class="dot a"></span><span class="bar"></span><span class="dot b"></span></div>
+          <div class="rung3d" style="--i:8"><span class="dot a"></span><span class="bar"></span><span class="dot b"></span></div>
+          <div class="rung3d" style="--i:9"><span class="dot a"></span><span class="bar"></span><span class="dot b"></span></div>
+          <div class="rung3d" style="--i:10"><span class="dot a"></span><span class="bar"></span><span class="dot b"></span></div>
+          <div class="rung3d" style="--i:11"><span class="dot a"></span><span class="bar"></span><span class="dot b"></span></div>
+          <div class="rung3d" style="--i:12"><span class="dot a"></span><span class="bar"></span><span class="dot b"></span></div>
+          <div class="rung3d" style="--i:13"><span class="dot a"></span><span class="bar"></span><span class="dot b"></span></div>
+          <div class="rung3d" style="--i:14"><span class="dot a"></span><span class="bar"></span><span class="dot b"></span></div>
+          <div class="rung3d" style="--i:15"><span class="dot a"></span><span class="bar"></span><span class="dot b"></span></div>
+          <div class="rung3d" style="--i:16"><span class="dot a"></span><span class="bar"></span><span class="dot b"></span></div>
+        </div>
       </div>
     </div>
 
-    <div class="helix-wrap" aria-hidden="true">
-      <svg viewBox="0 0 220 270" xmlns="http://www.w3.org/2000/svg">
-        <!-- rungs at each open (max-separation) point -->
-        <line class="rung" x1="156.0" y1="0" x2="64.0" y2="0" />
-        <line class="rung" x1="64.0" y1="65" x2="156.0" y2="65" />
-        <line class="rung" x1="156.0" y1="130" x2="64.0" y2="130" />
-        <line class="rung" x1="64.0" y1="195" x2="156.0" y2="195" />
+    <h1><span class="first">Chinmayi</span> <span class="last">Bankar</span></h1>
+    <div class="label">Computational Biology &amp; Statistics</div>
+    <div class="role">Principal Research Associate at <strong>Moderna</strong></div>
 
-        <!-- segment 0 (y 0-65): A in front -->
-        <path class="strand-b-back" d="M 64.0 0 L 64.9 4 L 67.4 8 L 71.5 12 L 77.1 16 L 83.9 20 L 91.6 24 L 100.1 28 L 108.9 32 L 117.7 36 L 126.3 40 L 134.3 44 L 141.3 48 L 147.2 52 L 151.7 56 L 154.7 60 L 155.9 64 L 156.0 65" />
-        <path class="strand-a-front" d="M 156.0 0 L 155.1 4 L 152.6 8 L 148.5 12 L 142.9 16 L 136.1 20 L 128.4 24 L 119.9 28 L 111.1 32 L 102.3 36 L 93.7 40 L 85.7 44 L 78.7 48 L 72.8 52 L 68.3 56 L 65.3 60 L 64.1 64 L 64.0 65" />
+    <p class="origin">
+      I inherited one X chromosome from my mother, <span class="tag m">a doctor</span>, and one X chromosome from my father, <span class="tag f">a computer scientist</span>. So it felt natural to grow up wanting to be a bit of both: reading biology the way she does, and reasoning about it the way he does.
+    </p>
 
-        <!-- segment 1 (y 65-130): B in front -->
-        <path class="strand-a-back" d="M 64.0 65 L 64.9 69 L 67.4 73 L 71.5 77 L 77.1 81 L 83.9 85 L 91.6 89 L 100.1 93 L 108.9 97 L 117.7 101 L 126.3 105 L 134.3 109 L 141.3 113 L 147.2 117 L 151.7 121 L 154.7 125 L 155.9 129 L 156.0 130" />
-        <path class="strand-b-front" d="M 156.0 65 L 155.1 69 L 152.6 73 L 148.5 77 L 142.9 81 L 136.1 85 L 128.4 89 L 119.9 93 L 111.1 97 L 102.3 101 L 93.7 105 L 85.7 109 L 78.7 113 L 72.8 117 L 68.3 121 L 65.3 125 L 64.1 129 L 64.0 130" />
-
-        <!-- segment 2 (y 130-195): A in front -->
-        <path class="strand-b-back" d="M 64.0 130 L 64.9 134 L 67.4 138 L 71.5 142 L 77.1 146 L 83.9 150 L 91.6 154 L 100.1 158 L 108.9 162 L 117.7 166 L 126.3 170 L 134.3 174 L 141.3 178 L 147.2 182 L 151.7 186 L 154.7 190 L 155.9 194 L 156.0 195" />
-        <path class="strand-a-front" d="M 156.0 130 L 155.1 134 L 152.6 138 L 148.5 142 L 142.9 146 L 136.1 150 L 128.4 154 L 119.9 158 L 111.1 162 L 102.3 166 L 93.7 170 L 85.7 174 L 78.7 178 L 72.8 182 L 68.3 186 L 65.3 190 L 64.1 194 L 64.0 195" />
-
-        <!-- segment 3 (y 195-227.5): B in front, ends where the strands touch -->
-        <path class="strand-a-back" d="M 64.0 195 L 64.9 199 L 67.4 203 L 71.5 207 L 77.1 211 L 83.9 215 L 91.6 219 L 100.1 223 L 108.9 227 L 110.0 227.5" />
-        <path class="strand-b-front" d="M 156.0 195 L 155.1 199 L 152.6 203 L 148.5 207 L 142.9 211 L 136.1 215 L 128.4 219 L 119.9 223 L 111.1 227 L 110.0 227.5" />
-
-        <!-- name, placed just below where the strands touch -->
-        <text class="converge-label" x="110" y="250">CHINMAYI</text>
-      </svg>
-      <div class="helix-legend">
-        <span class="m"><i></i>medicine</span>
-        <span class="f"><i></i>computer science</span>
-      </div>
+    <div class="hero-links">
+      <a href="mailto:chinmayibankar@gmail.com">Email →</a>
+      <a href="https://www.linkedin.com/in/chinmayibankar" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/chinmayibankar" target="_blank" rel="noopener">GitHub</a>
     </div>
   </div>
 </section>
@@ -449,21 +539,21 @@
   <div class="eyebrow"><span class="dot"></span><span class="label">About</span></div>
   <div class="about-body">
     <p>
-      I work at the intersection of computational biology and statistics, currently as a Principal Research Associate at Moderna, where I focus on turning complex biological data into decisions people can act on.
+      I work at the intersection of biology and statistics, currently as a Principal Research Associate at Moderna, where I focus on turning complex biological data into decisions people can act on.
     </p>
     <p class="placeholder">
-      [Add 2–3 more sentences here: what you actually work on day to day at Moderna — e.g. mRNA platform data, clinical statistics, computational pipelines — and what kind of problems energize you. I kept the framing open so you can drop this in directly.]
+      [Add 2-3 more sentences here: what you actually work on day to day at Moderna, e.g. mRNA platform data, clinical statistics, computational pipelines, and what kind of problems energize you. I kept the framing open so you can drop this in directly.]
     </p>
   </div>
 
   <div class="pillars">
     <div class="pillar">
       <div class="label">From the doctor's side</div>
-      <p>Biological grounding — thinking in mechanisms, disease, and what actually happens in a cell or a patient.</p>
+      <p>Biological grounding: thinking in mechanisms, disease, and what actually happens in a cell or a patient.</p>
     </div>
     <div class="pillar">
       <div class="label">From the computer scientist's side</div>
-      <p>Statistical and computational rigor — building models and pipelines that hold up under scrutiny.</p>
+      <p>Statistical and computational rigor: building models and pipelines that hold up under scrutiny.</p>
     </div>
   </div>
 </section>
@@ -474,12 +564,22 @@
   <div class="cv-block">
     <div class="label">Experience</div>
     <div class="entry">
-      <div class="when">2021 — Current</div>
+      <div class="when">2023-Current</div>
       <div class="what">
         <h3>Principal Research Associate</h3>
         <div class="org"><strong>Moderna</strong></div>
         <ul>
-          <li class="placeholder">Add 2–4 bullet points here — the work you're proudest of, framed as outcomes (e.g. "Built X pipeline that reduced Y" or "Led statistical analysis for Z"). This is the section hiring managers read most closely.</li>
+          <li class="placeholder">Add 2-4 bullet points here: the work you're proudest of, framed as outcomes (e.g. "Built X pipeline that reduced Y" or "Led statistical analysis for Z"). This is the section hiring managers read most closely.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="entry">
+      <div class="when">2021-2023</div>
+      <div class="what">
+        <h3>Senior Research Associate</h3>
+        <div class="org"><strong>Moderna</strong></div>
+        <ul>
+          <li class="placeholder">Add 2-4 bullet points here for this role too, if you'd like it broken out separately.</li>
         </ul>
       </div>
     </div>
@@ -488,17 +588,17 @@
   <div class="cv-block">
     <div class="label">Education</div>
     <div class="entry">
-      <div class="when">2019 — 2021</div>
+      <div class="when">2019-2021</div>
       <div class="what">
         <h3>M.S.E., Computational Medicine and Neuroengineering</h3>
-        <div class="org"><strong>Johns Hopkins University</strong></div>
+        <div class="org"><strong>Johns Hopkins University</strong>, Baltimore, USA</div>
       </div>
     </div>
     <div class="entry">
-      <div class="when placeholder">add years</div>
+      <div class="when">2015-2019</div>
       <div class="what">
         <h3>B.E., Computer Science</h3>
-        <div class="org"><strong>Maharashtra Institute of Technology</strong>, Pune</div>
+        <div class="org"><strong>Maharashtra Institute of Technology</strong>, Pune, India</div>
       </div>
     </div>
   </div>
@@ -537,7 +637,7 @@
       <div class="when">In progress</div>
       <div class="what">
         <h3>Genetic Testing and Sequencing Technologies</h3>
-        <div class="org">HMX (Harvard Medical School)</div>
+        <div class="org">Harvard Medical School, via HMX</div>
       </div>
     </div>
     <div class="entry">
